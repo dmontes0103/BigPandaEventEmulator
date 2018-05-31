@@ -1,20 +1,129 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- App name and toggle get grouped for better mobile display -->
+    <img src="/assets/images/intel-logo-white-100.png">
+    <div class="navbar-header">
+      <!-- <img src="/assets/images/logotop.gif" /> -->
+      <a class="navbar-brand">{{title}}</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class='panel-heading'>
+    <h4>Big Panda Alerts Generator</h4>
+  </div>
+  <div class='panel panel-default'>
+    <div class='panel-body'>
+      <form class="form-horizontal ng-pristine ng-valid col-xs-6 col-md-8">
+        <div class="form-group">
+          <label for="Severity">Severity</label>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-danger" (click)='setSev("Critical")'>Critical</button>
+            <button type="button" class="btn btn-default" (click)='setSev("Warning")' style="background-color:#F3D54E;color: black">Warning</button>
+            <button type="button" class="btn btn-default" (click)='setSev("Ok")'>Ok</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Hostname">Hostname</label>
+          <input type="text" class="form-control" name="inputHostname" placeholder="Enter hostname" [(ngModel)]='inputHostname'>
+        </div>
+        <div class="form-group">
+          <label for="Check">Event Category</label>
+          <input type="text" class="form-control" name="inputCheck" placeholder="Enter event category" [(ngModel)]='inputEventCat'>
+        </div>
+        <div class="form-group">
+          <label for="Check">Check</label>
+          <input type="text" class="form-control" name="inputCheck" placeholder="Enter check" [(ngModel)]='inputCheck'>
+        </div>
+        <div class="form-group">
+          <label for="Check">Description</label>
+          <!-- <input >                 -->
+          <textarea type="text" class="form-control" name="inputDescription" placeholder="Enter Description" [(ngModel)]='inputDescription'></textarea>
+        </div>
+        <form class="form-inline ng-pristine ng-valid">
+          <div class="form-group">
+            <div>
+              <input type="text" class="form-control" placeholder="key"   name="key"   [(ngModel)]='_Key'>
+              <input type="text" class="form-control" placeholder="value" name="value" [(ngModel)]='_Value'>
+              <button class="btn btn-default" type="submit" (click)='addKeyPairValue()'>Add Row</button>
+              <button class="btn btn-default" type="submit" (click)='removeLastRow()'  >Remove row</button>
+            </div>            
+          </div>
+        </form>
+        <br>        
+        <div class="form-group">
+          <table class="table table-bordered table-striped table-intel" *ngIf='fieldArray && fieldArray.length'>
+            <thead>
+              <tr>
+                <th scope="col">Key</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let keyPair of fieldArray">
+                <td>{{ keyPair.key }}</td>
+                <td>{{ keyPair.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default" (click)="sendBPEvent()">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer>
+    <div class="row">
+      <div class="col-xs-6 col-md-2">
+        <h3>About IT</h3>
+        <ul>
+          <li>
+            <a href="https://soco.intel.com/community/it">IT Organization</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-6 col-md-2">
+        <h3>Related Sites</h3>
+        <ul>
+          <li>
+            <a href="https://employeecontent.intel.com/content/cs/home/corporateservices.html">Corporate Services</a>
+          </li>
+          <li>
+            <a href="https://circuit.intel.com/content/entrypage/619c77cd-b4d0-4788-9c64-d9897fd45751.html">HR Help</a>
+          </li>
+          <!-- <li>
+                      <a href="">Secure Intel</a>
+                  </li> -->
+        </ul>
+      </div>
+      <div class="col-xs-6 col-md-2">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>
+            <a href="https://it.intel.com/#/">TAC Phone Numbers</a>
+          </li>
+          <!-- <li>
+                      <a href="">Find IT Service Centers</a>
+                  </li> -->
+          <li>
+            <a href="https://wiki.ith.intel.com/display/MCP/SME+Event+Monitoring+DevOps+Home+Page">Event Monitoring & Controls Wiki Site</a>
+          </li>
+          <li>
+            <a href="mailto:it.sme.event.monitoring.devops@intel.com">Send Email</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-6 col-md-6">
+        <span class="pull-right">© Intel Corporation |
+          <a href="http://legal.intel.com/index.htm">Legal</a> |
+          <a href="https://employeecontent.intel.com/content/corp/Global_Employee_and_Global_Contingent_Worker_Privacy.html">Employee/Contingent Worker Privacy</a>
+        </span>
+      </div>
+    </div>
+  </footer>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-

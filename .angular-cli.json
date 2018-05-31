@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "./assets/it-mlaf-css-master/css/it-mlaf.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
