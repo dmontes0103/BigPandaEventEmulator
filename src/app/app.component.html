@@ -13,14 +13,31 @@
   </div>
 </nav>
 <div class="container">
-  <div class='panel-heading'>
-    <h4>Big Panda Alerts Generator</h4>
-  </div>
+  <!-- <div class='panel-heading'>
+    <h4>BigPanda Event Simulator</h4>
+  </div> -->
   <div class='panel panel-default'>
     <div class='panel-body'>
       <form class="form-horizontal ng-pristine ng-valid col-xs-6 col-md-8">
         <div class="form-group">
-          <label for="Severity">Severity</label>
+          <label for="Data Source">Select a Data Source:</label>
+          <div class="btn-group" role="group" data-toggle="buttons">
+            <button type="button" class="btn btn-default active" aria-pressed="true" (click)='setQueue("Event_Management_SCOM")'>SCOM
+              <i class="intelicon-server-solid"></i>
+            </button>
+            <button type="button" class="btn btn-default active" aria-pressed="true"(click)='setQueue("Event_Management_Email")'>Email
+              <i class="intelicon-email-message-solid"></i>
+            </button>
+            <button type="button" class="btn btn-default active" aria-pressed="true"(click)='setQueue("Event_Management_Spectrum")'>Spectrum
+              <i class="intelicon-network"></i>
+            </button>
+            <button type="button" class="btn btn-default active" aria-pressed="true" (click)='setQueue("Event_Management_Testing")'>Testing
+              <i class="intelicon-desktop"></i>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Severity">Choose a Severity:</label>
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-danger" (click)='setSev("Critical")'>Critical</button>
             <button type="button" class="btn btn-default" (click)='setSev("Warning")' style="background-color:#F3D54E;color: black">Warning</button>
@@ -30,33 +47,38 @@
         <div class="form-group">
           <label for="Hostname">Hostname</label>
           <input type="text" class="form-control" name="inputHostname" placeholder="Enter hostname" [(ngModel)]='inputHostname'>
+          <span id="helpBlock" class="label label-warning" *ngIf='!inputHostname'>*Required field</span>
         </div>
         <div class="form-group">
           <label for="Check">Event Category</label>
-          <input type="text" class="form-control" name="inputCheck" placeholder="Enter event category" [(ngModel)]='inputEventCat'>
+          <input type="text" class="form-control" name="inputEventCat" placeholder="Enter event category" [(ngModel)]='inputEventCat'>
         </div>
         <div class="form-group">
           <label for="Check">Check</label>
           <input type="text" class="form-control" name="inputCheck" placeholder="Enter check" [(ngModel)]='inputCheck'>
+          <span id="helpBlock" class="label label-warning" *ngIf='!inputCheck'>*Required field</span>
         </div>
         <div class="form-group">
           <label for="Check">Description</label>
           <!-- <input >                 -->
-          <textarea type="text" class="form-control" name="inputDescription" placeholder="Enter Description" [(ngModel)]='inputDescription'></textarea>
+          <textarea type="text" class="form-control" name="inputDescription" style="height:150px;" placeholder="Enter Description" [(ngModel)]='inputDescription'></textarea>
+        </div>
+        <div class="form-group">
+          <label for="Additional Values">Additional Values</label>
         </div>
         <form class="form-inline ng-pristine ng-valid">
           <div class="form-group">
             <div>
-              <input type="text" class="form-control" placeholder="key"   name="key"   [(ngModel)]='_Key'>
+              <input type="text" class="form-control" placeholder="key" name="key" [(ngModel)]='_Key'>
               <input type="text" class="form-control" placeholder="value" name="value" [(ngModel)]='_Value'>
-              <button class="btn btn-default" type="submit" (click)='addKeyPairValue()'>Add Row</button>
-              <button class="btn btn-default" type="submit" (click)='removeLastRow()'  >Remove row</button>
-            </div>            
+              <button class="btn btn-default" type="submit" (click)='addRow()'><i class="intelicon-plus-outlined" aria-hidden="true"></i>Add Row</button>
+              <button class="btn btn-default" type="submit" (click)='removeLastRow()'><i class="intelicon-close-outlined" aria-hidden="true"></i>Remove Last Row</button>
+            </div>
           </div>
         </form>
-        <br>        
+        <br>
         <div class="form-group">
-          <table class="table table-bordered table-striped table-intel" *ngIf='fieldArray && fieldArray.length'>
+          <table class="table table-striped" *ngIf='fieldArray && fieldArray.length'>
             <thead>
               <tr>
                 <th scope="col">Key</th>
@@ -72,9 +94,22 @@
           </table>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-default" (click)="sendBPEvent()">Submit</button>
+          <button type="submit" class="btn btn-default" (click)="sendBPEvent()" [disabled]='!inputHostname || !inputCheck'>Submit
+            <i class="intelicon-send"></i>
+          </button>
+        </div>
+        <div class="form-group">
+            <div class="alert alert-success" role="alert" *ngIf='success'>
+                <strong>Well done!</strong> You successfully queued a message
+            </div>
         </div>
       </form>
+    </div>
+    <div class="progress" *ngIf='loading'>
+      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"
+        style="width: 100%">
+        Loading
+      </div>
     </div>
   </div>
   <footer>
