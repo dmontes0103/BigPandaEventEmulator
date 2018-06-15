@@ -22,26 +22,29 @@
         <div class="form-group">
           <label for="Data Source">Select a Data Source:</label>
           <div class="btn-group" role="group" data-toggle="buttons">
-            <button type="button" class="btn btn-default active" aria-pressed="true" (click)='setQueue("Event_Management_SCOM")'>SCOM
+            <button type="button" class="btn btn-{{activeQueue == 1 ? 'primary' : 'secondary'}}" (click)='setQueue("Event_Management_SCOM",1)'>SCOM
               <i class="intelicon-server-solid"></i>
             </button>
-            <button type="button" class="btn btn-default active" aria-pressed="true"(click)='setQueue("Event_Management_Email")'>Email
+            <button type="button" class="btn btn-{{activeQueue == 2 ? 'primary' : 'secondary'}}" (click)='setQueue("Event_Management_Email",2)'>Email
               <i class="intelicon-email-message-solid"></i>
             </button>
-            <button type="button" class="btn btn-default active" aria-pressed="true"(click)='setQueue("Event_Management_Spectrum")'>Spectrum
+            <button type="button" class="btn btn-{{activeQueue == 3 ? 'primary' : 'secondary'}}" (click)='setQueue("Event_Management_Spectrum",3)'>Spectrum
               <i class="intelicon-network"></i>
             </button>
-            <button type="button" class="btn btn-default active" aria-pressed="true" (click)='setQueue("Event_Management_Testing")'>Testing
+            <button type="button" class="btn btn-{{activeQueue == 4 ? 'primary' : 'secondary'}}" (click)='setQueue("Event_Management",4)'>DSM
               <i class="intelicon-desktop"></i>
+            </button>
+            <button type="button" class="btn btn-{{activeQueue == 5 ? 'primary' : 'secondary'}}" (click)='setQueue("Event_Management_Testing",5)'>Testing
+              <i class="intelicon-bug"></i>
             </button>
           </div>
         </div>
         <div class="form-group">
           <label for="Severity">Choose a Severity:</label>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-danger" (click)='setSev("Critical")'>Critical</button>
-            <button type="button" class="btn btn-default" (click)='setSev("Warning")' style="background-color:#F3D54E;color: black">Warning</button>
-            <button type="button" class="btn btn-default" (click)='setSev("Ok")'>Ok</button>
+            <button type="button" class="btn btn-danger {{activeSev == 1 ? 'active' : ''}}" (click)='setSev("Critical",1)'>Critical</button>
+            <button type="button" class="btn btn-default {{activeSev == 2 ? 'active' : ''}}" (click)='setSev("Warning",2)'>Warning</button>
+            <button type="button" class="btn btn-primary {{activeSev == 3 ? 'active' : ''}}" (click)='setSev("Ok",3)'>Ok</button>
           </div>
         </div>
         <div class="form-group">
@@ -63,6 +66,7 @@
           <!-- <input >                 -->
           <textarea type="text" class="form-control" name="inputDescription" style="height:150px;" placeholder="Enter Description" [(ngModel)]='inputDescription'></textarea>
         </div>
+        
         <div class="form-group">
           <label for="Additional Values">Additional Values</label>
         </div>
@@ -71,8 +75,8 @@
             <div>
               <input type="text" class="form-control" placeholder="key" name="key" [(ngModel)]='_Key'>
               <input type="text" class="form-control" placeholder="value" name="value" [(ngModel)]='_Value'>
-              <button class="btn btn-default" type="submit" (click)='addRow()'><i class="intelicon-plus-outlined" aria-hidden="true"></i>Add Row</button>
-              <button class="btn btn-default" type="submit" (click)='removeLastRow()'><i class="intelicon-close-outlined" aria-hidden="true"></i>Remove Last Row</button>
+              <button class="btn btn-default" type="submit" [disabled]='!_Key || !_Value' (click)='addRow()'><i class="intelicon-plus-outlined" aria-hidden="true"></i>Add Row</button>
+              <button class="btn btn-default" type="submit" [disabled]='!fieldArray.length' (click)='removeLastRow()'><i class="intelicon-close-outlined" aria-hidden="true"></i>Remove Last Row</button>
             </div>
           </div>
         </form>

@@ -11,7 +11,7 @@ import { StompService } from '@stomp/ng2-stompjs';
 })
 
 export class AppComponent implements OnInit {
-  title = 'BigPanda Event Simulator';
+  title = 'BigPanda Event Emulator';
 
   loading: boolean = false;
   success: boolean = false;
@@ -24,15 +24,17 @@ export class AppComponent implements OnInit {
   _Value: string;
   _Key: string;
   fieldArray: IKeyPair[] = [];
+  activeQueue: number = 5;
+  activeSev: number = 2;
 
     ////////////////////////////////
-  errorMessage: string;
+  errorMessage: string; 
 
   addRow() {
     if(this._Key && this._Value){
       var aux: IKeyPair = {
-        key: this._Key,
-        value: this._Value
+        key: this._Key.trim(),
+        value: this._Value.trim()
       };
       this.fieldArray.push(aux);
       this._Key = '';
@@ -55,13 +57,16 @@ export class AppComponent implements OnInit {
     //this._activemqService.queueEvent();
     //this.sendBPEvent();
   }
-  setSev(_value: string) {
+  setSev(_value: string, _sev: number) {
     this.inputSeverity = _value;
-    console.log(this.inputSeverity);
+    this.activeSev = _sev;
+    //console.log(this.activeSev);
+    //console.log(this.inputSeverity);
   }
 
-  setQueue(_value:string){
+  setQueue(_value:string, _active: number){
     this.inputQueue = _value;
+    this.activeQueue = _active;
     //console.log(this.inputQueue);
   }
 
@@ -100,14 +105,16 @@ export class AppComponent implements OnInit {
   sendBPEvent() {
     var result = this.buildArray();
     //console.log("Results: "+ result.toString()); 
-    var body = '{' + result + '"status":"' + this.inputSeverity +'","host":"'+ this.inputHostname + '","cmdb_name":"' 
-    + this.inputHostname + '","check":"'+ this.inputCheck + '","event_category":"'+ this.inputEventCat + '","description":"'
-    + this.escapeDoubleQuotes(this.inputDescription) + '","sender":"BP Event Emulator"}';
+    var body = '{' + result + '"status":"' + this.inputSeverity +'","host":"'+ this.inputHostname.trim() + '","cmdb_name":"' 
+    + this.inputHostname.trim() + '","check":"'+ this.inputCheck.trim() + '","event_category":"'+ this.inputEventCat.trim() + '","description":"'
+    + this.escapeDoubleQuotes(this.inputDescription).trim()+ '","sender":"BP Event Emulator"}';
 
-      console.log("Body: ",body);
+      //console.log("Body: ",body);
       this.loading = true;
       this._activemqService.queueEvent(this.inputQueue,body);
-      setTimeout( () => { this.loading = false; this.resetFields(); console.log("Event Queued"); this.dismissSuccess()}, 3000 );
+      setTimeout( () => { this.loading = false; 
+        //this.resetFields(); 
+        console.log("Event Queued"); this.dismissSuccess()}, 3000 );
   }
 }
 

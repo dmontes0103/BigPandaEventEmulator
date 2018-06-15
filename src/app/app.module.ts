@@ -4,6 +4,8 @@ import { FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StompConfig, StompService, StompRService} from '@stomp/ng2-stompjs';
+import { RouterModule} from '@angular/router';
+import { RouterConfigLoader } from '@angular/router/src/router_config_loader';
 
 
 const stompConfig: StompConfig = {
@@ -14,7 +16,6 @@ const stompConfig: StompConfig = {
   // Headers
   // Typical keys: login, passcode, host
   headers: {
-    //Authorization: 'Basic ZW1faW50ZWdyYXRpb246TW9uaXRvcjIwMjA=' //+ btoa('Event_Manage_0_rw'+':'+'qHcBm2nYs5h1lXu')
     // em_integration -> Monitor2020
     login : 'em_integration', 
     passcode : 'Monitor2020'
@@ -41,7 +42,11 @@ const stompConfig: StompConfig = {
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path: 'bigpandaeventsim', component: AppComponent},
+      {path: '', redirectTo: 'bigpandaeventsim', pathMatch: 'full'},
+      {path: '**', redirectTo: 'bigpandaeventsim', pathMatch: 'full'}] , { useHash: true })
   ],
   providers: [StompService,
     {
