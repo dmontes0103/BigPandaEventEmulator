@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
     this.inputCheck= '';
     this.inputDescription= '';
     this.inputEventCat= '';
-    this.inputSeverity='Warning';
+    this.inputSeverity='Critical';
     this.fieldArray = [];
   }
   
@@ -99,8 +99,9 @@ export class AppComponent implements OnInit {
   }
 
   escapeDoubleQuotes(str) {
+    str = str.replace(/'/g, "'");
+    str = str.replace(/\\/g, "\\\\");
     return str.replace(/\\([\s\S])|(")/g,"\\$1$2");
-  
   }
   sendBPEvent() {
     var result = this.buildArray();
