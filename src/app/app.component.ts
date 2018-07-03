@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActiveMQService } from './ActiveMQ.service';
 import { IKeyPair } from './keyPair';
-import { StompService } from '@stomp/ng2-stompjs';
 
 @Component({
   selector: 'app-root',
@@ -54,20 +53,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     console.log("App Started");
-    //this._activemqService.queueEvent();
-    //this.sendBPEvent();
   }
   setSev(_value: string, _sev: number) {
     this.inputSeverity = _value;
     this.activeSev = _sev;
-    //console.log(this.activeSev);
-    //console.log(this.inputSeverity);
   }
 
   setQueue(_value:string, _active: number){
     this.inputQueue = _value;
     this.activeQueue = _active;
-    //console.log(this.inputQueue);
   }
 
   constructor(private _activemqService: ActiveMQService) {  
@@ -81,7 +75,7 @@ export class AppComponent implements OnInit {
     this.inputSeverity='Critical';
     this.fieldArray = [];
   }
-  
+
   buildArray(){
     var result='';
     var arrayLength = this.fieldArray.length;
